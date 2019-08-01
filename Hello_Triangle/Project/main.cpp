@@ -21,16 +21,9 @@ const char *fragment_shader_source = "#version 330 core\n"
 "}\n\0";
 
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow *window);
 
-void processInput(GLFWwindow *window)
-{
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) 
-		glfwSetWindowShouldClose(window,true);
-}
 
 //In modern OpenGl, we are required to define at least a vertex and fragment shader
 //of our own (There are no default vertex/fragments shaders on the GPU)
@@ -127,12 +120,40 @@ int main()
 
 
 //We define vertex data
-	float vertices [] =
+
+	//Triangles
+	/*float vertices [] =
 	{
 		-0.5f, -0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
 		 0.0f,  0.5f, 0.0f
+	};*/
+	//If we want to draw a rectangle -> but it's an overhead of 50%
+	/*float vertices[] = {
+		// first triangle
+		 0.5f,  0.5f, 0.0f,  // top right
+		 0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f,  0.5f, 0.0f,  // top left 
+		// second triangle
+		 0.5f, -0.5f, 0.0f,  // bottom right
+		-0.5f, -0.5f, 0.0f,  // bottom left
+		-0.5f,  0.5f, 0.0f   // top left
+	};*/
+
+//So we can use EBO ( element buffer objects) -> buffer that stores indices that
+//O.GL uses to decide what vertices to draw
+
+	float vertices[] = {
+	 0.5f,  0.5f, 0.0f,  // top right
+	 0.5f, -0.5f, 0.0f,  // bottom right
+	-0.5f, -0.5f, 0.0f,  // bottom left
+	-0.5f,  0.5f, 0.0f   // top left 
 	};
+	unsigned int indices[] = {  // note that we start from 0!
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};
+
 
 //But O.GL don't know how it should interpret the vertex data in memory and how it should
 //connect the vertex data to the vertex shader's attributes
@@ -142,18 +163,28 @@ int main()
 
 //0. copy our vertices array in a buffer for O.GL to use
 	//Vertex Array Object
-	unsigned int VAO, VBO;
+	unsigned int VAO, VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 
+//VAO will make it easy to switch between VBO
+//Core OpenGL requires that we use a VAO so it knows what to do with our vertex inputs. If we fail to bind a VAO, OpenGL will most likely refuse to draw anything.
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 //1. then set the vertex attributes pointers
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 //2. use our shader program when we want to render an object
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);//Unbind
+	glBindVertexArray(0);
+
 
 	while(!glfwWindowShouldClose(window))
 	{
@@ -165,8 +196,10 @@ int main()
 
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-	
+		
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		
+		glBindVertexArray(0);
 		//-> whenever we call glClear and clear the buffer-> the entire color buffer
 		//will be filled with the color as configured by glClearColor
 
@@ -182,4 +215,25 @@ int main()
 	glfwTerminate();
 	//Terminate here clear all previously allocated GLFW resources
 ;	return 0;	
+}
+
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow *window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+	if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
+		GLint polygonMode;
+		glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
+		if (polygonMode == GL_LINE)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
 }

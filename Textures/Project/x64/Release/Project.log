@@ -1,0 +1,17 @@
+﻿  glad.c
+  main.cpp
+d:\opengl\opengl_learning\shaders\project\main.cpp(136): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+main.obj : error LNK2001: symbole externe non résolu glfwSwapBuffers
+main.obj : error LNK2001: symbole externe non résolu glfwSetFramebufferSizeCallback
+main.obj : error LNK2001: symbole externe non résolu glfwGetTime
+main.obj : error LNK2001: symbole externe non résolu glfwGetKey
+main.obj : error LNK2001: symbole externe non résolu glfwTerminate
+main.obj : error LNK2001: symbole externe non résolu glfwPollEvents
+main.obj : error LNK2001: symbole externe non résolu glfwInit
+main.obj : error LNK2001: symbole externe non résolu glfwSetWindowShouldClose
+main.obj : error LNK2001: symbole externe non résolu glfwCreateWindow
+main.obj : error LNK2001: symbole externe non résolu glfwWindowHint
+main.obj : error LNK2001: symbole externe non résolu glfwMakeContextCurrent
+main.obj : error LNK2001: symbole externe non résolu glfwGetProcAddress
+main.obj : error LNK2001: symbole externe non résolu glfwWindowShouldClose
+D:\OpenGl\OpenGl_Learning\Shaders\x64\Release\Project.exe : fatal error LNK1120: 13 externes non résolus

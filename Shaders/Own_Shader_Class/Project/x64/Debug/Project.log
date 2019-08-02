@@ -1,0 +1,18 @@
+﻿  glad.c
+  main.cpp
+d:\opengl\opengl_learning\shaders\project\main.cpp(136): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+main.obj : error LNK2019: symbole externe non résolu glfwInit référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwTerminate référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwWindowHint référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwCreateWindow référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwWindowShouldClose référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwSetWindowShouldClose référencé dans la fonction "void __cdecl processInput(struct GLFWwindow *)" (?processInput@@YAXPEAUGLFWwindow@@@Z)
+main.obj : error LNK2019: symbole externe non résolu glfwSetFramebufferSizeCallback référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwPollEvents référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwGetKey référencé dans la fonction "void __cdecl processInput(struct GLFWwindow *)" (?processInput@@YAXPEAUGLFWwindow@@@Z)
+main.obj : error LNK2019: symbole externe non résolu glfwGetTime référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwMakeContextCurrent référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwSwapBuffers référencé dans la fonction main
+main.obj : error LNK2019: symbole externe non résolu glfwGetProcAddress référencé dans la fonction main
+C:\Users\arthu\Desktop\OpenGl\Libraries\glfw3.lib : warning LNK4272: type d'ordinateur bibliothèque 'x86' en conflit avec le type d'ordinateur cible 'x64'
+D:\OpenGl\OpenGl_Learning\Shaders\x64\Debug\Project.exe : fatal error LNK1120: 13 externes non résolus
